@@ -61,6 +61,8 @@
       thisProduct.data = data;
 
       thisProduct.renderInMenu();
+      thisProduct.getElements();
+      thisProduct.initOrderForm();
       thisProduct.initAccordion();
       console.log('New Product', thisProduct);
     }
@@ -88,7 +90,7 @@
     initAccordion(){
       const thisProduct = this;
       /* find the clickable trigger (the element that should react to clicking) */
-      thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+      // thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
       //console.log('clickableTrigger', clickableTrigger);
       
       /* START: add event listener to clickable trigger on event click */
