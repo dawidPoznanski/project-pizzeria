@@ -119,3 +119,6 @@ dist
 VSconfig.code-workspace
 .editorconfig
 .vscode/settings.json
+
+# Apple DS_Store
+.DS_Store
