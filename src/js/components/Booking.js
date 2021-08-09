@@ -110,7 +110,7 @@ class Booking {
     for(let hourBlock = startHour; hourBlock < startHour + duration; hourBlock += 0.5){
       // console.log('loop', hourBlock);
       if(typeof thisBooking.booked[date][hourBlock] == 'undefined'){
-        thisBooking.booked[date][hourBlock] = {};
+        thisBooking.booked[date][hourBlock] = [];
       }
   
       thisBooking.booked[date][hourBlock].push(table);
@@ -136,10 +136,10 @@ class Booking {
       if(!isNaN(tableId)){
         tableId = parseInt(tableId);
       }
-
+      // console.log('###', thisBooking.booked[thisBooking.date][thisBooking.hour].indexOf(tableId));
       if(!allAvailable && 
-        thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId) > -1){
-        table.classList.addDays(classNames.booking.tableBooked);
+        thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId)){
+        table.classList.add(classNames.booking.tableBooked);
       }else{
         table.classList.remove(classNames.booking.tableBooked);
       }
@@ -169,7 +169,7 @@ class Booking {
     thisBooking.datePicker = new DatePicker(thisBooking.dom.datePicker);
   
     thisBooking.dom.wrapper.addEventListener('updated', function(){
-      this.thisBooking.updateDOM();
+      thisBooking.updateDOM();
     });
   }  
 }
