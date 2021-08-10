@@ -13,7 +13,7 @@ class Booking {
     thisBooking.render(element);
     thisBooking.initWidgets();
     thisBooking.getData();
-
+    thisBooking.initTables();
 
   }
 
@@ -159,6 +159,10 @@ class Booking {
     thisBooking.dom.hourPicker = document.querySelector(select.widgets.hourPicker.wrapper);
     thisBooking.dom.datePicker = document.querySelector(select.widgets.datePicker.wrapper);
     thisBooking.dom.tables = thisBooking.dom.wrapper.querySelectorAll(select.booking.tables);
+    thisBooking.dom.form = document.querySelectorAll(select.booking.form);
+    thisBooking.dom.address = document.querySelector(select.cart.address);
+    thisBooking.dom.phone = document.querySelector(select.cart.phone);
+    thisBooking.dom.starters = document.querySelectorAll(select.booking.starters);
   }
   initWidgets(){
     const thisBooking = this;
@@ -171,7 +175,97 @@ class Booking {
     thisBooking.dom.wrapper.addEventListener('updated', function(){
       thisBooking.updateDOM();
     });
-  }  
+    
+    thisBooking.dom.form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      thisBooking.sendBooking();
+    });
+    
+  }
+  initTables(){
+    const thisBooking = this;
+
+    for(let table of thisBooking.dom.tables){
+      table.addEventListener('click', function(event){
+        event.preventDefault();
+        table.classList.add('selected');
+        if(table.classList.contains('booked')){
+          alert('Ten stolik jest już zajęty.');
+        }else{
+          let selectedTable;
+      
+          select.booking.floor.onclick = function(event) {
+            let target = event.target; // where was the click?
+      
+            if (target.tagName != 'selected') return; // not on TD? Then we're not interested
+      
+            highlight(target); // highlight it
+
+            function highlight(selected) {
+              if (selectedTable) { // remove the existing highlight if any
+                table.classList.remove('selected');
+              }
+              selectedTable = selected;
+              table.classList.add('selected'); // highlight the new td
+            }
+          };
+        }
+      });
+    }
+  
+  }
+  
+  removeSelected(){
+    const thisBooking = this;
+
+    const clickedTable = document.querySelectorAll('selected');
+    for(let clicked of clickedTable){
+      clicked.classList.remove('selected');
+      console.log('kutas', clickedTable);
+    }
+    delete thisBooking.clickedTable;
+  }
+
+
+  sendBooking() {
+    const thisBooking = this;
+
+    const url = settings.db.url + '/' + settings.db.booking;
+
+    const finalBooking = {
+      date: thisBooking.datePicker.value, // pobieranie wartości dla zamówienia
+      hour: thisBooking.hourPicker.value,
+      table: thisBooking.selectedTable,
+      duration: parseInt(thisBooking.peopleAmount.value), // zamiana na liczbę
+      ppl: parseInt(thisBooking.hoursAmount.value),
+      starters: [],
+      phone: thisBooking.dom.phone.value,
+      address: thisBooking.dom.address.value,
+    };
+
+    for (let starter of thisBooking.dom.starters) {    // opcje starterów - woda i chleb
+      if (starter.checked === true) {
+        finalBooking.starters.push(starter.value);    // dopisz jeśli zaznaczono
+      }
+    }
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(finalBooking),
+    };
+
+    fetch(url, options)
+      .then(function (response) {
+        return response.json();
+      }).then(function (parsedResponse) {
+        console.log('parsedResponse', parsedResponse);
+      });
+
+
+  }
 }
 
 export default Booking;

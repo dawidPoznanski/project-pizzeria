@@ -2,6 +2,7 @@ import {settings, select, classNames, templates} from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
 import Booking from './components/Booking.js';
+import Home from './components/Home.js';
 
 
 const app = {
@@ -119,10 +120,11 @@ const app = {
     console.log('settings:', settings);
     console.log('templates:', templates);
 
+    thisApp.initHome();
     thisApp.initBooking();
     thisApp.initPages();
     thisApp.initData();
-    thisApp.initCart();
+    
     //thisApp.initMenu();
     //thisApp.initAccordion();
   },
@@ -130,4 +132,6 @@ const app = {
   //app.initData();
   //app.initMenu();
 app.init();
+app.initCart();
 
+export default app;
