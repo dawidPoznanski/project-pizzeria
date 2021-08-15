@@ -221,7 +221,6 @@ class Booking {
     const clickedTable = document.querySelectorAll('selected');
     for(let clicked of clickedTable){
       clicked.classList.remove('selected');
-      console.log('kutas', clickedTable);
     }
     delete thisBooking.clickedTable;
   }
