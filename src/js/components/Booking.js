@@ -159,7 +159,7 @@ class Booking {
     thisBooking.dom.hourPicker = document.querySelector(select.widgets.hourPicker.wrapper);
     thisBooking.dom.datePicker = document.querySelector(select.widgets.datePicker.wrapper);
     thisBooking.dom.tables = thisBooking.dom.wrapper.querySelectorAll(select.booking.tables);
-    thisBooking.dom.form = document.querySelectorAll(select.booking.form);
+    thisBooking.dom.form = document.querySelector(select.booking.form);
     thisBooking.dom.address = document.querySelector(select.cart.address);
     thisBooking.dom.phone = document.querySelector(select.cart.phone);
     thisBooking.dom.starters = document.querySelectorAll(select.booking.starters);
@@ -174,6 +174,7 @@ class Booking {
   
     thisBooking.dom.wrapper.addEventListener('updated', function(){
       thisBooking.updateDOM();
+      thisBooking.removeSelected();
     });
     
     thisBooking.dom.form.addEventListener('submit', function (event) {
@@ -188,43 +189,29 @@ class Booking {
     for(let table of thisBooking.dom.tables){
       table.addEventListener('click', function(event){
         event.preventDefault();
-        table.classList.add('selected');
         if(table.classList.contains('booked')){
           alert('Ten stolik jest już zajęty.');
-        }else{
-          let selectedTable;
-      
-          select.booking.floor.onclick = function(event) {
-            let target = event.target; // where was the click?
-      
-            if (target.tagName != 'selected') return; // not on TD? Then we're not interested
-      
-            highlight(target); // highlight it
+        }else if (table.classList.contains('selected')) {
+          table.classList.remove('selected');
+          thisBooking.selectedTable = null;
+        } else {
+          thisBooking.removeSelected();
 
-            function highlight(selected) {
-              if (selectedTable) { // remove the existing highlight if any
-                table.classList.remove('selected');
-              }
-              selectedTable = selected;
-              table.classList.add('selected'); // highlight the new td
-            }
-          };
+          table.classList.add('selected');
+          thisBooking.selectedTable = table.getAttribute(settings.booking.tableIdAttribute);
+          console.log('xxxx', thisBooking.selectedTable); 
         }
       });
     }
-  
   }
-  
   removeSelected(){
     const thisBooking = this;
 
-    const clickedTable = document.querySelectorAll('selected');
-    for(let clicked of clickedTable){
-      clicked.classList.remove('selected');
+    for ( let selectedTable of thisBooking.dom.tables) {
+      selectedTable.classList.remove('selected');
     }
-    delete thisBooking.clickedTable;
+  
   }
-
 
   sendBooking() {
     const thisBooking = this;

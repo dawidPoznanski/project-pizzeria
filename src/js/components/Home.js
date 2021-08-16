@@ -1,6 +1,6 @@
 import { templates, select } from '../settings.js';
 import app from '../app.js';
-
+import Flickity from '../../vendor/flickity.pkgd.min.js';
 
 class Home {
   constructor(element) {
@@ -39,6 +39,7 @@ class Home {
         pageDots: false,
       });
     }, 2000);
+    console.log('xxxx', thisHome.flkty);
   }
 
   jumpToSubpage() {
