@@ -20,8 +20,8 @@ class Home {
     thisHome.dom = {};
     thisHome.dom.wrapper = element;
     thisHome.dom.wrapper.innerHTML = generatedHTML;
-    thisHome.dom.order = element.querySelector(select.home.order);
-    thisHome.dom.book = element.querySelector(select.home.book);
+    thisHome.dom.order = document.querySelector(select.home.order);
+    thisHome.dom.book = document.querySelector(select.home.book);
 
   }
 

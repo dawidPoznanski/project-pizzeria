@@ -2,6 +2,7 @@ import {settings, select, classNames, templates} from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
 import Booking from './components/Booking.js';
+import Home from './components/Home.js';
 // import Home from './components/Home.js';
 
 
@@ -62,6 +63,14 @@ const app = {
     }
   },
 
+  initHome: function(){
+    const thisApp = this;
+    
+    const homeElem = document.querySelector(select.containerOf.home);
+
+    thisApp.home =  new Home(homeElem);
+  },
+
   initBooking: function(){
     const thisApp = this;
 
@@ -120,7 +129,7 @@ const app = {
     console.log('settings:', settings);
     console.log('templates:', templates);
 
-    
+    thisApp.initHome();
     thisApp.initBooking();
     thisApp.initPages();
     thisApp.initData();
