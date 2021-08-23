@@ -140,10 +140,12 @@
 
     a {
       display: inline;
-      color: $color-light;
+      color: transparent;
       text-decoration: none;
-      size: 12px;
+      font-size: 12px;
+
     }
+
   }
 
   .over {
@@ -177,10 +179,7 @@
 }
 
 .footer {
-  position: absolute !important;
-  bottom: -1150px !important;
-  left: 0;
-  right: 0;
+  
   color: $color-main;
   //display: flex;
   //align-items: center;

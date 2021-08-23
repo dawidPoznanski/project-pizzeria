@@ -9,7 +9,11 @@
         "init:files": "touch README.md src/index.html src/sass/style.scss src/js/script.js",
         "init:gitignore": "curl https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore -o .gitignore",
         "init:gitignore:custom": "echo \"dist\" >> .gitignore",
-        "build": "npm-run-all build:*",
+        "test": "npm-run-all test:*",
+        "test:html": "html-validate src/*.html",
+        "test:js": "eslint src/js/",
+        "test:scss": "stylelint src/sass/**/*.scss",
+        "build": "npm-run-all build:* test",
         "build:clean": "rimraf dist && mkdirp dist",
         "build:copy": "copyfiles -a -u 1 -e \"**/sass/**/*\" -e \"**/.gitkeep\" \"src/**/*\" dist",
         "build:sass": "node-sass --output-style compact -o dist/css src/sass",
@@ -26,7 +30,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "flickity": "2.2.2",
+        "flickity": "^2.2.2",
         "json-server": "^0.16.3"
     },
     "devDependencies": {
